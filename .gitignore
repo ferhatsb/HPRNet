@@ -161,6 +161,6 @@ cython_debug/
 
 **/.DS_Store
 
-data/*
-exp/*
-models/*
+/data/*
+/exp/*
+/models/*
