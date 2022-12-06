@@ -8,14 +8,14 @@ from progress.bar import Bar
 import time
 import torch
 
-from src.lib.models.model import create_model, load_model
-from src.lib.utils.image import get_affine_transform
-from src.lib.utils.debugger import Debugger
+from lib.models.model import create_model, load_model
+from lib.utils.image import get_affine_transform
+from lib.utils.debugger import Debugger
 
 
 class BaseDetector(object):
   def __init__(self, opt):
-    if opt.gpus[0] >= 0:
+    if opt.gpus[0] > 0:
       opt.device = torch.device('cuda')
     else:
       opt.device = torch.device('cpu')
@@ -110,13 +110,15 @@ class BaseDetector(object):
         meta = {k: v.numpy()[0] for k, v in meta.items()}
       meta['img_size'] = (img_h, img_w)
       images = images.to(self.opt.device)
-      torch.cuda.synchronize()
+      if torch.cuda.is_available():
+                torch.cuda.synchronize()
       pre_process_time = time.time()
       pre_time += pre_process_time - scale_start_time
       
       output, dets, forward_time = self.process(images, return_time=True)
 
-      torch.cuda.synchronize()
+      if torch.cuda.is_available():
+                torch.cuda.synchronize()
       net_time += forward_time - pre_process_time
       decode_time = time.time()
       dec_time += decode_time - forward_time
@@ -125,14 +127,16 @@ class BaseDetector(object):
       #   self.debug(debugger, images, dets, output, scale)
       
       dets = self.post_process(dets, meta, scale)
-      torch.cuda.synchronize()
+      if torch.cuda.is_available():
+                torch.cuda.synchronize()
       post_process_time = time.time()
       post_time += post_process_time - decode_time
 
       detections.append(dets)
     
     results = self.merge_outputs(detections)
-    torch.cuda.synchronize()
+    if torch.cuda.is_available():
+                torch.cuda.synchronize()
     end_time = time.time()
     merge_time += end_time - post_process_time
     tot_time += end_time - start_time

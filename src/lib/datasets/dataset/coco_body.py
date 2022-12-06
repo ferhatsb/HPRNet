@@ -3,13 +3,13 @@ from __future__ import division
 from __future__ import print_function
 
 import pycocotools.coco as coco
-from src.tools.coco_body_eval.myeval_facebox import MYeval_facebox
-from src.tools.coco_body_eval.myeval_face import MYeval_face
-from src.tools.coco_body_eval.myeval_lefthand import MYeval_lefthand
-from src.tools.coco_body_eval.myeval_righthand import MYeval_righthand
-from src.tools.coco_body_eval.myeval_foot import MYeval_foot
-from src.tools.coco_body_eval.myeval_wholebody import MYeval_wholebody
-from src.tools.coco_body_eval.myeval_body import MYeval_body
+from tools.coco_body_eval.myeval_facebox import MYeval_facebox
+from tools.coco_body_eval.myeval_face import MYeval_face
+from tools.coco_body_eval.myeval_lefthand import MYeval_lefthand
+from tools.coco_body_eval.myeval_righthand import MYeval_righthand
+from tools.coco_body_eval.myeval_foot import MYeval_foot
+from tools.coco_body_eval.myeval_wholebody import MYeval_wholebody
+from tools.coco_body_eval.myeval_body import MYeval_body
 
 import numpy as np
 import json

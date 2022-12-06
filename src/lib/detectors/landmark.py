@@ -6,9 +6,9 @@ import numpy as np
 import time
 import torch
 
-from src.lib.models.decode import landmark_decode
-from src.lib.models.utils import flip_tensor, flip_lr_off, flip_lr
-from src.lib.utils.post_process import landmark_post_process
+from lib.models.decode import landmark_decode
+from lib.models.utils import flip_tensor, flip_lr_off, flip_lr
+from lib.utils.post_process import landmark_post_process
 
 from .base_detector import BaseDetector
 
@@ -24,7 +24,8 @@ class LandmarkDetector(BaseDetector):
 
     def process(self, images, return_time=False):
         with torch.no_grad():
-            torch.cuda.synchronize()
+            if torch.cuda.is_available():
+                torch.cuda.synchronize()
 
             output = self.model(images)[-1]
             output['hm'] = output['hm'].sigmoid_()
@@ -34,7 +35,8 @@ class LandmarkDetector(BaseDetector):
             reg = output['reg'] if self.opt.reg_offset else None
             hm_hp = output['hm_hp'] if self.opt.hm_hp else None
             hp_offset = output['hp_offset'] if self.opt.reg_hp_offset else None
-            torch.cuda.synchronize()
+            if torch.cuda.is_available():
+                torch.cuda.synchronize()
             forward_time = time.time()
 
             if self.opt.flip_test:

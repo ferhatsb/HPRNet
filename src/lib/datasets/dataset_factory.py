@@ -6,8 +6,8 @@ from .sample.multi_pose import MultiPoseDataset
 from .sample.landmark import LandmarkDataset
 
 
-from src.lib.datasets.dataset.coco_hp import COCOHP
-from src.lib.datasets.dataset.coco_body import COCOBODY
+from lib.datasets.dataset.coco_hp import COCOHP
+from lib.datasets.dataset.coco_body import COCOBODY
 
 dataset_factory = {
   'coco_hp': COCOHP,

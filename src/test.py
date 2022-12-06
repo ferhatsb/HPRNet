@@ -64,7 +64,7 @@ def prefetch_test(opt):
     batch_size=1, shuffle=False, num_workers=1, pin_memory=True)
 
   results = {}
-  num_iters = len(dataset)
+  num_iters = 100
   bar = Bar('{}'.format(opt.exp_id), max=num_iters)
   time_stats = ['tot', 'load', 'pre', 'net', 'dec', 'post', 'merge']
   avg_time_stats = {t: AverageMeter() for t in time_stats}
@@ -97,7 +97,7 @@ def test(opt):
   detector = Detector(opt)
 
   results = {}
-  num_iters = len(dataset)
+  num_iters = 100
   bar = Bar('{}'.format(opt.exp_id), max=num_iters)
   time_stats = ['tot', 'load', 'pre', 'net', 'dec', 'post', 'merge']
   avg_time_stats = {t: AverageMeter() for t in time_stats}
