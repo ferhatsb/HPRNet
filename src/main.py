@@ -6,18 +6,18 @@ import sys
 import os
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
-import src._init_paths
+import _init_paths
 
 import os
 
 import torch
 import torch.utils.data
-from src.lib.opts import opts
-from src.lib.models.model import create_model, load_model, save_model
-from src.lib.models.data_parallel import DataParallel
-from src.lib.logger import Logger
-from src.lib.datasets.dataset_factory import get_dataset
-from src.lib.trains.train_factory import train_factory
+from lib.opts import opts
+from lib.models.model import create_model, load_model, save_model
+from lib.models.data_parallel import DataParallel
+from lib.logger import Logger
+from lib.datasets.dataset_factory import get_dataset
+from lib.trains.train_factory import train_factory
 
 
 def main(opt):
@@ -31,7 +31,7 @@ def main(opt):
   logger = Logger(opt)
 
   os.environ['CUDA_VISIBLE_DEVICES'] = opt.gpus_str
-  opt.device = torch.device('cuda' if opt.gpus[0] >= 0 else 'cpu')
+  opt.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
   
   print('Creating model...')
   model = create_model(opt.arch, opt.heads, opt.head_conv)

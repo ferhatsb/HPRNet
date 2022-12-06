@@ -5,7 +5,7 @@ import  sys
 import os
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
-import src._init_paths
+import _init_paths
 
 import os
 import json
@@ -14,12 +14,12 @@ import numpy as np
 import time
 from progress.bar import Bar
 import torch
-# from src.lib.external.nms import soft_nms
-from src.lib.opts import opts
-from src.lib.logger import Logger
-from src.lib.utils.utils import AverageMeter
-from src.lib.datasets.dataset_factory import dataset_factory
-from src.lib.detectors.detector_factory import detector_factory
+# from lib.external.nms import soft_nms
+from lib.opts import opts
+from lib.logger import Logger
+from lib.utils.utils import AverageMeter
+from lib.datasets.dataset_factory import dataset_factory
+from lib.detectors.detector_factory import detector_factory
 
 class PrefetchDataset(torch.utils.data.Dataset):
   def __init__(self, opt, dataset, pre_process_func):
@@ -35,8 +35,8 @@ class PrefetchDataset(torch.utils.data.Dataset):
     img_path = os.path.join(self.img_dir, img_info['file_name'])
     image = cv2.imread(img_path)
     images, meta = {}, {}
-    for scale in opt.test_scales:
-      if opt.task == 'ddd':
+    for scale in self.opt.test_scales:
+      if self.opt.task == 'ddd':
         images[scale], meta[scale] = self.pre_process_func(
           image, scale, img_info['calib'])
       else:
